@@ -9,7 +9,8 @@ body{
 .container{
     background-color: rgba(245, 245, 245, 1);
     width: 550px;
-    height: min-content;
+    /* height: min-content; */
+    height: 100vh;
     margin: 0 auto;
 
     display: flex;
@@ -54,7 +55,7 @@ body{
     height: min-content;
     padding-top: 20px;
 
-    /* background-color: blue; */
+    background-color: rgba(245, 245, 245, 1);
 
     display: flex;
     flex-direction: column;
@@ -76,15 +77,15 @@ body{
 
 }
 
-.normal_card_output{
+.message{
     background-color: white;
 }
 
-.reserved_card_output{
+.private_message{
     background-color: #FFDEDE;
 }
 
-.status_card_output{
+.status{
     background-color: #DCDCDC;
 }
 
@@ -117,11 +118,13 @@ body{
     bottom: 0;
     left: 1;
     right: 1;
+
 }
 
 .div_input_message{
     height: 80px;
     width: 100%;
+    /* background-color: yellow; */
 }
 
 .input_message{
@@ -135,6 +138,7 @@ body{
     padding-left: 10px;
 
     /* border: 1px solid red; */
+    /* background-color: yellow; */
 }
 
 .div_arrow_icon{
@@ -152,4 +156,9 @@ body{
 .arrow_icon{
     width: 26px;
     height: 26px;
+}
+
+
+.teste{
+    background-color: yellow;
 }
