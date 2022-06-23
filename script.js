@@ -5,11 +5,12 @@ const $header = document.querySelector('.header');
 const $box_input = document.querySelector('.box_input');
 const $box_output = document.querySelector('.box_output');
 const $input_message = document.querySelector('.input_message')
-const $arrow_icon = document.querySelector('.div_arrow_icon')
+const $div_arrow_icon = document.querySelector('.div_arrow_icon')
 
 // ----------------------------------------------------------------------------------------------------------------- //
 window.addEventListener('resize', responsive_layout);
-$arrow_icon.addEventListener('click', send_message)
+$div_arrow_icon.addEventListener('click', send_message_click)
+$input_message.addEventListener('keyup', send_message_enter)
 // ----------------------------------------------------------------------------------------------------------------- //
 
 let user;
@@ -49,20 +50,40 @@ function keep_user_online(){
 }
 
 
-function send_message(){
+function send_message_enter(e){
+
+    let key = e.which || e.keyCode;
+    if (key == 13) { 
+        let text = $input_message.value;
+    
+        let message = {
+            from: user,
+            to: "Todos",
+            text: text,
+            type: "message" // ou "private_message" para o bônus
+        }
+        let promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
+        promise.then(feedback_sucess)
+        promise.catch(feedback_error)
+
+        $input_message.value = ''
+    }
+}
+
+function send_message_click(){
     let text = $input_message.value;
     
-    let message = {
-        from: user,
-	    to: "Todos",
-	    text: text,
-	    type: "message" // ou "private_message" para o bônus
-    }
-    let promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
-    promise.then(feedback_sucess)
-    promise.catch(feedback_error)
+        let message = {
+            from: user,
+            to: "Todos",
+            text: text,
+            type: "message" // ou "private_message" para o bônus
+        }
+        let promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
+        promise.then(feedback_sucess)
+        promise.catch(feedback_error)
 
-    $input_message.value = ''
+        $input_message.value = ''
 }
 
 
