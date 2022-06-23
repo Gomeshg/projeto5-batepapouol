@@ -1,16 +1,21 @@
 // ----------------------------------------------------------------------------------------------------------------- //
 
-window.addEventListener('resize', responsive_layout);
 const $container = document.querySelector('.container');
 const $header = document.querySelector('.header');
 const $box_input = document.querySelector('.box_input');
 const $box_output = document.querySelector('.box_output');
+const $input_message = document.querySelector('.input_message')
+const $arrow_icon = document.querySelector('.div_arrow_icon')
 
 // ----------------------------------------------------------------------------------------------------------------- //
+window.addEventListener('resize', responsive_layout);
+$arrow_icon.addEventListener('click', send_message)
+// ----------------------------------------------------------------------------------------------------------------- //
 
-// set_participant('titã de ataque')
-// setInterval(set_participant('titã de ataque', 3000))
+let user;
+set_user()
 get_messages()
+setInterval(keep_user_online, 5000)
 setInterval(get_messages, 3000)
 setInterval(last_card_scrollIntoView, 3000)
 
@@ -19,16 +24,47 @@ setInterval(last_card_scrollIntoView, 3000)
 // ----------------------------------------------------------------------------------------------------------------- //
 
 
-function set_participant(name){
+function set_user(){
+
+    user = prompt('Qual o seu lindo nome?')
 
     let object_name = {
-        name: name
+        name: user
     }
     
     let promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants', object_name)
     promise.then(feedback_sucess)
     promise.catch(feedback_error)
+    promise.catch(set_user)
+    console.log('SET_USER')
 }
+
+function keep_user_online(){
+    let object_name = {
+        name: user
+    }
+    let promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/status', object_name)
+    promise.then(feedback_sucess)
+    promise.catch(feedback_error)
+}
+
+
+function send_message(){
+    let text = $input_message.value;
+    
+    let message = {
+        from: user,
+	    to: "Todos",
+	    text: text,
+	    type: "message" // ou "private_message" para o bônus
+    }
+    let promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
+    promise.then(feedback_sucess)
+    promise.catch(feedback_error)
+
+    $input_message.value = ''
+}
+
 
 
 function feedback_sucess(){
