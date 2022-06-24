@@ -6,20 +6,92 @@ const $box_input = document.querySelector('.box_input');
 const $box_output = document.querySelector('.box_output');
 const $input_message = document.querySelector('.input_message')
 const $div_arrow_icon = document.querySelector('.div_arrow_icon')
+const $person_icon = document.querySelector('.person_icon')
+const $menu = document.querySelector('.menu')
+const $dark_background = document.querySelector('.dark_background')
 
 // ----------------------------------------------------------------------------------------------------------------- //
+
+
 window.addEventListener('resize', responsive_layout);
+window.addEventListener('load', responsive_layout)
 $div_arrow_icon.addEventListener('click', send_message_click)
 $input_message.addEventListener('keyup', send_message_enter)
+$person_icon.addEventListener('click', menu)
+$dark_background.addEventListener('click', exit_menu)
+
+function responsive_layout(){
+    let width = window.screen.width;
+    
+    if(width <= 550){
+        $container.style.width = `${width}px`;
+        $header.style.width = `${width}px`;
+        $box_input.style.width = `${width}px`;
+    }
+}
+function send_message_click(){
+    let text = $input_message.value;
+        
+            let message = {
+                from: user,
+                to: "Todos",
+                text: text,
+                type: "message" // ou "private_message" para o bônus
+            }
+            let promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
+            promise.then(feedback_sucess)
+            promise.catch(feedback_error)
+            promise.catch(update_window)
+    
+            $input_message.value = ''
+}
+function send_message_enter(e){
+
+    let key = e.which || e.keyCode;
+    if (key ===  13) { 
+        let text = $input_message.value;
+    
+        let message = {
+            from: user,
+            to: "Todos",
+            text: text,
+            type: "message" // ou "private_message" para o bônus
+        }
+        let promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
+        promise.then(feedback_sucess)
+        promise.catch(feedback_error)
+        promise.catch(update_window)
+
+        $input_message.value = ''
+    }
+}
+
+
+function menu(){
+    $menu.style.opacity = '1'
+    $menu.style.transform = 'translateX(-0%)';
+    $dark_background.style.opacity = '1'
+    $dark_background.style.zIndex = '1'
+}
+
+function exit_menu(){
+    $dark_background.style.opacity = '0'
+    $dark_background.style.zIndex = '-1'
+    $menu.style.transform = 'translateX(100%)';
+    $menu.style.opacity = '1';
+}
+
+
 // ----------------------------------------------------------------------------------------------------------------- //
 
-let user;
-set_user()
-get_messages()
-setInterval(keep_user_online, 5000)
-setInterval(get_messages, 3000)
-setInterval(last_card_scrollIntoView, 3000)
 
+let user;
+// set_user()
+// get_messages()
+// get_users()
+// setInterval(keep_user_online, 5000)
+// setInterval(get_messages, 3000)
+// setInterval(last_card_scrollIntoView, 3000)
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -37,62 +109,6 @@ function set_user(){
     promise.then(feedback_sucess)
     promise.catch(feedback_error)
     promise.catch(set_user)
-    console.log('SET_USER')
-}
-
-function keep_user_online(){
-    let object_name = {
-        name: user
-    }
-    let promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/status', object_name)
-    promise.then(feedback_sucess)
-    promise.catch(feedback_error)
-}
-
-
-function send_message_enter(e){
-
-    let key = e.which || e.keyCode;
-    if (key == 13) { 
-        let text = $input_message.value;
-    
-        let message = {
-            from: user,
-            to: "Todos",
-            text: text,
-            type: "message" // ou "private_message" para o bônus
-        }
-        let promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
-        promise.then(feedback_sucess)
-        promise.catch(feedback_error)
-
-        $input_message.value = ''
-    }
-}
-
-function send_message_click(){
-    let text = $input_message.value;
-    
-        let message = {
-            from: user,
-            to: "Todos",
-            text: text,
-            type: "message" // ou "private_message" para o bônus
-        }
-        let promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/messages', message);
-        promise.then(feedback_sucess)
-        promise.catch(feedback_error)
-
-        $input_message.value = ''
-}
-
-
-
-function feedback_sucess(){
-    console.log('Requisição feita com sucesso!')
-}
-function feedback_error(e){
-    alert(e)
 }
 
 
@@ -103,6 +119,7 @@ function get_messages(){
     promise.then(set_messages_in_box_output)
     promise.catch(feedback_error)
 }
+
 
 function set_messages_in_box_output(promise){
 
@@ -128,7 +145,7 @@ function set_messages_in_box_output(promise){
             $box_output.innerHTML += 
             `<div class="card message">
                 <div class="time_card"> ${data[i].time} </div>
-                <div class="tittle_card"> <strong>${data[i].from}</strong> </div> 
+                <div class="tittle_card"> <strong>${data[i].from}</strong> para <strong>${data[i].to}:</strong> </div> 
                 <div class="text_card"> ${data[i].text} </div>
             </div>`;
         }
@@ -144,6 +161,30 @@ function set_messages_in_box_output(promise){
     }
 }
 
+
+function keep_user_online(){
+    let object_name = {
+        name: user
+    }
+    let promise = axios.post('https://mock-api.driven.com.br/api/v6/uol/status', object_name)
+    promise.then(feedback_sucess)
+    promise.catch(feedback_error)
+}
+
+
+function get_users(){
+    let promise = axios.get('https://mock-api.driven.com.br/api/v6/uol/participants');
+    promise.then(feedback_sucess)
+    promise.then(show_users)
+    promise.catch(feedback_error)
+}
+
+function show_users(promise){
+    let data = promise.data
+    console.log(data)
+}
+
+
 function last_card_scrollIntoView(){
     let $cards = document.getElementsByClassName('card');
     $cards = [...$cards]
@@ -152,13 +193,19 @@ function last_card_scrollIntoView(){
 }
 
 
-function responsive_layout(){
-    let width = window.screen.width;
-    
-    if(width <= 550){
-        $container.style.width = `${width}px`;
-        $header.style.width = `${width}px`;
-        $box_input.style.width = `${width}px`;
-    }
+function feedback_sucess(){
+    console.log('Requisição feita com sucesso!')
 }
+
+
+function feedback_error(e){
+    alert(e)
+}
+
+
+function update_window(){
+    document.location.reload()
+}
+
+
 // ----------------------------------------------------------------------------------------------------------------- //
