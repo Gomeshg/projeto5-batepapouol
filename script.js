@@ -8,6 +8,7 @@ const $input_message = document.querySelector('.input_message')
 const $div_arrow_icon = document.querySelector('.div_arrow_icon')
 const $person_icon = document.querySelector('.person_icon')
 const $menu = document.querySelector('.menu')
+const $users_menu = document.querySelector('.users_menu')
 const $dark_background = document.querySelector('.dark_background')
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -86,12 +87,13 @@ function exit_menu(){
 
 
 let user;
-// set_user()
-// get_messages()
-// get_users()
-// setInterval(keep_user_online, 5000)
-// setInterval(get_messages, 3000)
-// setInterval(last_card_scrollIntoView, 3000)
+set_user()
+get_messages()
+get_users()
+setInterval(keep_user_online, 5000)
+setInterval(get_messages, 3000)
+setInterval(get_users, 10000)
+setInterval(last_card_scrollIntoView, 3000)
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -179,9 +181,19 @@ function get_users(){
     promise.catch(feedback_error)
 }
 
+
 function show_users(promise){
     let data = promise.data
-    console.log(data)
+    
+    $users_menu.innerHTML = '';
+    for(let i = 0; i < data.length; i++){
+
+        $users_menu.innerHTML += 
+        `<div class="item_menu">
+            <img class="user adjust_icon" src="./imagens/user.png" alt="User icon">
+            <p>${data[i].name}</p>
+        </div>`;
+    }
 }
 
 

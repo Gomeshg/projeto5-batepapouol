@@ -114,6 +114,7 @@ body{
     transform: translateX(100%);  
 
     transition: all 0.8s ease;
+    overflow-y: scroll;
 }
 
 .item_menu{
