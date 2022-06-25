@@ -117,13 +117,37 @@ body{
     overflow-y: scroll;
 }
 
-.item_menu{
+
+.box_item{
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 5px;
+    justify-content: space-between;
+
     padding: 5px;
+    margin: 5px;
+
+    background-color: blue;
 }
+
+.item{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.box_checked_simbol{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.checked_simbol{
+    height: 12px;
+    width: 12px;
+
+    opacity: 0;
+}
+
 
 .menu h2{
     text-align: center;
@@ -134,7 +158,10 @@ body{
     padding: 20px;
 }
 
-.menu div{
+.menu .box_user{
+    padding: 10px;
+}
+.menu .box_visibility{
     padding: 10px;
 }
 
@@ -143,27 +170,22 @@ body{
     font-weight: 400;
 }
 
-.item_menu .person{
+.box_item .person_icon{
     width: 23.44px;
     height: 17.19px;
 }
 
-.item_menu .user{
+.box_item .user_icon{
     width: 20.31px;
     height: 20.31px;
 }
 
-.item_menu .padlock{
+.box_item .padlock_icon{
     width: 15.13px;
     height: 20.63px;
 }
 
-.adjust_icon{
-    transform: translateY(-1.5px);
-}
-
 .dark_background{
-    /* display: none; */
     opacity: 0;
     position: fixed;
     top: 0;
@@ -196,7 +218,6 @@ body{
 .div_input_message{
     height: 80px;
     width: 100%;
-    /* background-color: yellow; */
 }
 
 .input_message{
@@ -208,9 +229,6 @@ body{
     line-height: 21.09px;
     font-weight: 400;
     padding-left: 10px;
-
-    /* border: 1px solid red; */
-    /* background-color: yellow; */
 }
 
 .div_arrow_icon{
