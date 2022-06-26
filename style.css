@@ -126,12 +126,15 @@ body{
     margin: 5px;
 
     background-color: blue;
+
 }
 
 .item{
     display: flex;
     align-items: center;
     gap: 10px;
+
+    overflow: hidden;
 }
 
 .box_checked_simbol{

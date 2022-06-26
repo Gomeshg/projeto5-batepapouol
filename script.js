@@ -18,9 +18,6 @@ let box_user = [$item_send_to_all]
 let users;
 
 
-
-
-
 // ----------------------------------------------------------------------------------------------------------------- //
 
 
@@ -30,10 +27,8 @@ $div_arrow_icon.addEventListener('click', send_message_click)
 $input_message.addEventListener('keyup', send_message_enter)
 $person_icon.addEventListener('click', menu)
 $dark_background.addEventListener('click', exit_menu)
-// box_user.map( item => item.addEventListener('click', box_user_checked ))
 $choice_private.addEventListener('click', box_visibility_checked)
 $choice_public.addEventListener('click', box_visibility_checked)
-
 
 
 function responsive_layout(){
@@ -95,29 +90,6 @@ function exit_menu(){
     $menu.style.opacity = '1';
 }
 
-function item_checked(e){
-    
-    let box_item = convert_box_item_in_object(e.currentTarget)
-    let checked = convert_box_item_in_object(box_item.div_checked)
-
-
-    
-
-    if(checked.simbol.style.opacity ==  ''){
-        checked.simbol.style.opacity = '1';
-        box_item.classList.add('selected');
-    }
-    else if(checked.simbol.style.opacity == '0'){
-        checked.simbol.style.opacity = '1';
-        box_item.classList.add('selected');
-    }
-    else if(checked.simbol.style.opacity == '1'){
-        checked.simbol.style.opacity = '0';
-        box_item.classList.remove('selected')
-    }
-}
-
-
 
 function box_visibility_checked(e){
 
@@ -158,7 +130,36 @@ function box_visibility_checked(e){
         box_item.classList.add('selected')
     }
 }
+function box_user_checked(e){
 
+    let box_item = e.currentTarget
+    let icon = get_icon_from_box_item(box_item)
+
+    let cont = 0;
+    for(let i = 0; i < box_user.length; i++){
+
+        if(box_user[i].classList.contains('selected')){
+            
+            box_user[i].classList.remove('selected');
+
+            let icon2 = get_icon_from_box_item(box_user[i]);
+            icon2.style.opacity = '0';
+
+            box_item.classList.add('selected');
+            icon.style.opacity = '1';
+            break;
+        }
+
+        cont++
+    }
+
+    if(cont === box_user.length){
+
+        box_item.classList.add('selected');
+        icon.style.opacity = '1';
+    }
+
+}
 
 
 // ----------------------------------------------------------------------------------------------------------------- //
@@ -168,14 +169,11 @@ let user;
 set_user()
 get_messages()
 get_users()
-setTimeout(get_itens_in_box_user, 1000)
-add_checked_event_to_box_visibility()
-// add_event_to_box_item()
+setTimeout(get_users_in_users_menu_and_put_in_box_user, 1000)
 setInterval(keep_user_online, 5000)
 setInterval(get_messages, 3000)
 setInterval(get_users, 10000)
-setInterval(get_itens_in_box_user, 10000)
-// setInterval(add_event_to_itens_menu, 10000)
+setInterval(get_users_in_users_menu_and_put_in_box_user, 10500)
 setInterval(last_card_scrollIntoView, 3000)
 
 
@@ -286,17 +284,20 @@ function show_users(promise){
 }
 
 
-function get_itens_in_box_user(){
+function get_users_in_users_menu_and_put_in_box_user(){
 
-    let $users_menu = document.getElementsByClassName('users_menu')
-    $users_menu = convert_htmlCollection_in_array($users_menu)[0]
-    
+    let $users_menu = document.getElementsByClassName('users_menu')[0]
+  
     users = get_children_from($users_menu)
-
+    
     box_user = [$item_send_to_all]
 
     users.map( user => box_user.push(user))
-    console.log(box_user)
+    add_event_user_checked_in_box_user()
+}
+
+function add_event_user_checked_in_box_user(){
+    box_user.map( item => item.addEventListener('click', box_user_checked))
 }
 
 
@@ -338,21 +339,6 @@ function convert_htmlCollection_in_array(html_collection){
     return array;
 }
 
-// function get_children_from_box_item(box){
-
-//     box = get_children_from(box)
-
-//     let object = {}
-//     if(box.length === 2){
-//         object.item = box[0]
-//         object.div_checked = box[1]
-//     }
-//     else if( box.length === 1){
-//         object.checked = box[0]
-//     }
-
-//     return object;
-// }
 
 function get_children_from(item){
 
