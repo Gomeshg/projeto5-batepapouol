@@ -237,7 +237,7 @@ function set_messages_in_box_output(promise){
             $box_output.innerHTML += 
             `<div class="card private_message">
                 <div class="time_card"> ${data[i].time} </div>
-                <div class="tittle_card"> <strong>${data[i].from}</strong> </div>
+                <div class="tittle_card"> <strong>${data[i].from}</strong> para <strong>${data[i].to}:</strong> </div>
                 <div class="text_card"> ${data[i].text} </div>
             </div>`;
         }
@@ -292,26 +292,7 @@ function get_users_in_users_menu_and_put_in_box_user(){
     
     users = get_children_from($users_menu)
    
-    
-    // let cont = 0;
-    // for(let i = 0; i < box_user.length; i++){
-    //     if(box_user[i].classList.contains("selected")){
-    //         console.log('tem selected')
-    //         box_user = [$item_send_to_all, box_user[i]]
-    //         break;
-    //     }
-    //     cont++;
-    // }
-    // if(cont === box_user.length){
-    //     console.log("Não tem selected ")
-    //     box_user = [$item_send_to_all]
-    // }
-
-
     box_user = [$item_send_to_all]
-
-
-
 
     users.map( user => box_user.push(user))
     add_event_user_checked_in_box_user()
