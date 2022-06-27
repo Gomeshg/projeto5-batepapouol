@@ -168,12 +168,12 @@ function box_user_checked(e){
 let user;
 set_user()
 get_messages()
-get_users()
+get_users_and_set_them_in_users_menu()
 setTimeout(get_users_in_users_menu_and_put_in_box_user, 1000)
 setInterval(keep_user_online, 5000)
 setInterval(get_messages, 3000)
-setInterval(get_users, 10000)
-setInterval(get_users_in_users_menu_and_put_in_box_user, 10500)
+setInterval(get_users_and_set_them_in_users_menu, 10000)
+setInterval(get_users_in_users_menu_and_put_in_box_user, 10300)
 setInterval(last_card_scrollIntoView, 3000)
 
 
@@ -255,15 +255,15 @@ function keep_user_online(){
 }
 
 
-function get_users(){
+function get_users_and_set_them_in_users_menu(){
     let promise = axios.get('https://mock-api.driven.com.br/api/v6/uol/participants');
     promise.then(feedback_sucess)
-    promise.then(show_users)
+    promise.then(insert_users_in_users_menu)
     promise.catch(feedback_error)
 }
 
 
-function show_users(promise){
+function insert_users_in_users_menu(promise){
     let data = promise.data
     
     $users_menu.innerHTML = '';
@@ -286,11 +286,32 @@ function show_users(promise){
 
 function get_users_in_users_menu_and_put_in_box_user(){
 
+    console.log('get_users_in_users_menu_and_put_in_box_user')
+
     let $users_menu = document.getElementsByClassName('users_menu')[0]
-  
-    users = get_children_from($users_menu)
     
+    users = get_children_from($users_menu)
+   
+    
+    // let cont = 0;
+    // for(let i = 0; i < box_user.length; i++){
+    //     if(box_user[i].classList.contains("selected")){
+    //         console.log('tem selected')
+    //         box_user = [$item_send_to_all, box_user[i]]
+    //         break;
+    //     }
+    //     cont++;
+    // }
+    // if(cont === box_user.length){
+    //     console.log("Não tem selected ")
+    //     box_user = [$item_send_to_all]
+    // }
+
+
     box_user = [$item_send_to_all]
+
+
+
 
     users.map( user => box_user.push(user))
     add_event_user_checked_in_box_user()
@@ -310,7 +331,7 @@ function last_card_scrollIntoView(){
 
 
 function feedback_sucess(){
-    console.log('Requisição feita com sucesso!')
+    // console.log('Requisição feita com sucesso!')
 }
 
 
